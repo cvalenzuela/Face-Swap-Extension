@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+
+  "name": "Face Swap",
+  "description": "Face Swap",
+  "version": "1.0",
+
+  "background": {
+    "scripts": ["start.js"]
+  },
+
+  "browser_action": {
+   "default_icon": "icon.png",
+   "default_title": "Face Swap"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [],
+      "js": ["js/p5.min.js", "js/p5.dom.js", "js/tracking-min.js" ,"js/eye-min.js", "js/face-min.js", "js/mouth-min.js" ]
+    }
+  ],
+
+  "permissions": [
+    "tabs",
+    "activeTab"
+   ]
+}
