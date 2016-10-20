@@ -27,21 +27,17 @@ var sketch = function(p5) {
     p5.clear();
     p5.noStroke();
 
-
-  }
-
-  p5.draw = function(){
-    /* Define elements to track */
     var imgs = document.getElementsByTagName('img')
     //var tracker = new tracking.ObjectTracker(['face', 'eye', 'mouth']);
     var tracker = new tracking.ObjectTracker(['face']); // Define what to track
     tracker.setStepSize(1.7); // Set up size of tracker
 
-    /* Look for face recongition in every image in the imgs array */
+    /* Look for all faces in every image in the imgs array */
     for(var i = 0; i < imgs.length ; i++){
       var currentImage = imgs[i];
       tracking.track(currentImage, tracker);
 
+      // Callback function
       tracker.on('track', function(event) {
         for (var m = 0; m < event.data.length; m++){
           drawRectangles(event.data[m].x, event.data[m].y, event.data[m].width, event.data[m].height);
@@ -54,6 +50,12 @@ var sketch = function(p5) {
         p5.rect((currentImage.offsetLeft + x), (currentImage.offsetTop + y), w, h);
       };
     }
+
+  }
+
+  p5.draw = function(){
+    /* Define elements to track */
+
   }
 }
 
