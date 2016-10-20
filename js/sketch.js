@@ -18,6 +18,28 @@ console.log("reading sketch...");
 /* p5 Object Constructor */
 var sketch = function(p5) {
 
+  function trackFaces(img) {
+    var tracker = new tracking.ObjectTracker(['face']); // Define what to track
+    //var tracker = new tracking.ObjectTracker(['face', 'eye', 'mouth']);
+
+    tracker.setStepSize(1.7); // Set up size of tracker
+    tracking.track(img, tracker);
+
+    // Callback function
+    tracker.on('track', function(event) {
+      for (var m = 0; m < event.data.length; m++){
+        console.log(img);
+        console.log(img.offsetLeft);
+        var x = event.data[m].x;
+        var y = event.data[m].y;
+        var w = event.data[m].width;
+        var h = event.data[m].height;
+        p5.fill(p5.random(255),p5.random(255),p5.random(255));
+        p5.rect((img.offsetLeft + x), (img.offsetTop + y), w, h);
+      }
+    });
+  }
+
   /* Setup Function */
   p5.setup = function() {
 
@@ -28,34 +50,17 @@ var sketch = function(p5) {
     p5.noStroke();
 
     var imgs = document.getElementsByTagName('img')
-    //var tracker = new tracking.ObjectTracker(['face', 'eye', 'mouth']);
-    var tracker = new tracking.ObjectTracker(['face']); // Define what to track
-    tracker.setStepSize(1.7); // Set up size of tracker
 
-    /* Look for all faces in every image in the imgs array */
+    /* Look for all faces in every image in the imgs array: use a closure for handling the data */
     for(var i = 0; i < imgs.length ; i++){
       var currentImage = imgs[i];
-      tracking.track(currentImage, tracker);
-
-      // Callback function
-      tracker.on('track', function(event) {
-        for (var m = 0; m < event.data.length; m++){
-          drawRectangles(event.data[m].x, event.data[m].y, event.data[m].width, event.data[m].height);
-        }
-      });
-
-      /* Draw a rectangle in x,y */
-      drawRectangles = function(x, y, w, h) {
-        p5.fill(p5.random(255),p5.random(255),p5.random(255));
-        p5.rect((currentImage.offsetLeft + x), (currentImage.offsetTop + y), w, h);
-      };
+      trackFaces(currentImage);
     }
 
   }
 
   p5.draw = function(){
     /* Define elements to track */
-
   }
 }
 
