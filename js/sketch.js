@@ -19,8 +19,9 @@ console.log("reading sketch...");
 var sketch = function(p5) {
 
   function trackFaces(img) {
-    var tracker = new tracking.ObjectTracker(['face']); // Define what to track
-    //var tracker = new tracking.ObjectTracker(['face', 'eye', 'mouth']);
+
+    //var tracker = new tracking.ObjectTracker(['face']); // Define what to track
+    var tracker = new tracking.ObjectTracker(['face', 'eye', 'mouth']);
 
     tracker.setStepSize(1.7); // Set up size of tracker
     tracking.track(img, tracker);
@@ -38,6 +39,7 @@ var sketch = function(p5) {
         p5.rect((img.offsetLeft + x), (img.offsetTop + y), w, h);
       }
     });
+    
   }
 
   /* Setup Function */
